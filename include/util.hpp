@@ -23,6 +23,11 @@ namespace turing_machine::util
         struct CharState {
             static constexpr auto letter = c;
         };
+
+        template<auto t = []{}>
+        struct UniqueState {
+        };
+
     } // namespace state
 
     template <class Container, class... Args>
