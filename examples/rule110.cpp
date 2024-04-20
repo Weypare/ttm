@@ -44,7 +44,6 @@ namespace tl = type_list;
 // | l0     | E         | HALT      | E           | N        |
 // |--------|-----------|-----------|-------------|----------|
 
-
 using INIT = tur::util::CharState<'i'>;
 
 using L0 = tur::util::UniqueState<>;
@@ -69,40 +68,44 @@ using LET0 = tur::util::CharLetter<' '>;
 using LET1 = tur::util::CharLetter<'#'>;
 using END = tur::util::CharLetter<'E'>;
 
+// clang-format off
 using TransitionTable =
-  tl::List<tur::Transition<tur::TransitionFrom<INIT, START>, tur::TransitionTo<L0, START, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<INIT, LET0>, tur::TransitionTo<HALT, LET0, tur::Direction::N>>,
-           tur::Transition<tur::TransitionFrom<INIT, LET1>, tur::TransitionTo<HALT, LET1, tur::Direction::N>>,
-           tur::Transition<tur::TransitionFrom<INIT, END>, tur::TransitionTo<HALT, END, tur::Direction::N>>,
+  tl::List<
+           tur::Transition<tur::TransitionFrom<INIT, START>, tur::TransitionTo<L0,   START, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<INIT, LET0>,  tur::TransitionTo<HALT, LET0,  tur::Direction::N>>,
+           tur::Transition<tur::TransitionFrom<INIT, LET1>,  tur::TransitionTo<HALT, LET1,  tur::Direction::N>>,
+           tur::Transition<tur::TransitionFrom<INIT, END>,   tur::TransitionTo<HALT, END,   tur::Direction::N>>,
 
-           tur::Transition<tur::TransitionFrom<L0, LET0>, tur::TransitionTo<L0M0, LET0, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L0, LET1>, tur::TransitionTo<L0M1, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L0M0, END>, tur::TransitionTo<L0M0R0, END, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M0, LET0>, tur::TransitionTo<L0M0R0, LET0, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M0, LET1>, tur::TransitionTo<L0M0R1, LET1, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M1, END>, tur::TransitionTo<L0M1R0, END, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M1, LET0>, tur::TransitionTo<L0M1R0, LET0, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M1, LET1>, tur::TransitionTo<L0M1R1, LET1, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L0M0R0, LET0>, tur::TransitionTo<L0, LET0, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L0M0R1, LET0>, tur::TransitionTo<L0, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L0M1R0, LET1>, tur::TransitionTo<L1, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L0M1R1, LET1>, tur::TransitionTo<L1, LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0,     LET0>, tur::TransitionTo<L0M0,   LET0, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0,     LET1>, tur::TransitionTo<L0M1,   LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0M0,   END>,  tur::TransitionTo<L0M0R0, END,  tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M0,   LET0>, tur::TransitionTo<L0M0R0, LET0, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M0,   LET1>, tur::TransitionTo<L0M0R1, LET1, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M1,   END>,  tur::TransitionTo<L0M1R0, END,  tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M1,   LET0>, tur::TransitionTo<L0M1R0, LET0, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M1,   LET1>, tur::TransitionTo<L0M1R1, LET1, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L0M0R0, LET0>, tur::TransitionTo<L0,     LET0, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0M0R1, LET0>, tur::TransitionTo<L0,     LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0M1R0, LET1>, tur::TransitionTo<L1,     LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L0M1R1, LET1>, tur::TransitionTo<L1,     LET1, tur::Direction::R>>,
 
-           tur::Transition<tur::TransitionFrom<L1, LET0>, tur::TransitionTo<L1M0, LET0, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L1, LET1>, tur::TransitionTo<L1M1, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L1M0, END>, tur::TransitionTo<L1M0R0, END, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M0, LET0>, tur::TransitionTo<L1M0R0, LET0, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M0, LET1>, tur::TransitionTo<L1M0R1, LET1, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M1, END>, tur::TransitionTo<L1M1R0, END, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M1, LET0>, tur::TransitionTo<L1M1R0, LET0, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M1, LET1>, tur::TransitionTo<L1M1R1, LET1, tur::Direction::L>>,
-           tur::Transition<tur::TransitionFrom<L1M0R0, LET0>, tur::TransitionTo<L0, LET0, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L1M0R1, LET0>, tur::TransitionTo<L0, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L1M1R0, LET1>, tur::TransitionTo<L1, LET1, tur::Direction::R>>,
-           tur::Transition<tur::TransitionFrom<L1M1R1, LET1>, tur::TransitionTo<L1, LET0, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1,     LET0>, tur::TransitionTo<L1M0,   LET0, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1,     LET1>, tur::TransitionTo<L1M1,   LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1M0,   END>,  tur::TransitionTo<L1M0R0, END,  tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M0,   LET0>, tur::TransitionTo<L1M0R0, LET0, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M0,   LET1>, tur::TransitionTo<L1M0R1, LET1, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M1,   END>,  tur::TransitionTo<L1M1R0, END,  tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M1,   LET0>, tur::TransitionTo<L1M1R0, LET0, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M1,   LET1>, tur::TransitionTo<L1M1R1, LET1, tur::Direction::L>>,
+           tur::Transition<tur::TransitionFrom<L1M0R0, LET0>, tur::TransitionTo<L0,     LET0, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1M0R1, LET0>, tur::TransitionTo<L0,     LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1M1R0, LET1>, tur::TransitionTo<L1,     LET1, tur::Direction::R>>,
+           tur::Transition<tur::TransitionFrom<L1M1R1, LET1>, tur::TransitionTo<L1,     LET0, tur::Direction::R>>,
 
            tur::Transition<tur::TransitionFrom<L0, END>, tur::TransitionTo<HALT, END, tur::Direction::N>>,
-           tur::Transition<tur::TransitionFrom<L1, END>, tur::TransitionTo<HALT, END, tur::Direction::N>>>;
+           tur::Transition<tur::TransitionFrom<L1, END>, tur::TransitionTo<HALT, END, tur::Direction::N>>
+  >;
+// clang-format on
 
 using StartState = INIT;
 using FinalStates = tl::List<HALT>;
@@ -137,29 +140,45 @@ void rule110_helper(std::vector<std::pair<int, char>> &v)
 }
 
 template <class Tape, std::size_t... levels>
-void rule110(std::integer_sequence<std::size_t, levels...>)
+void run_rule110(std::integer_sequence<std::size_t, levels...>)
 {
     std::vector<std::pair<int, char>> v;
 
     ((v.clear(), tur::util::unpurify(v, typename Rule110<Tape, levels>::Tape{}), rule110_helper(v)), ...);
 }
 
+template <class List, class Letter, std::size_t offset, size_t level, std::size_t... levels>
+struct AppendTapeCells {
+    using Tape =
+      AppendTapeCells<tl::AppendList<tur::TapeCell<offset + level, Letter>, List>, Letter, offset, levels...>::Tape;
+};
+
+template <class List, class Letter, std::size_t offset, size_t level>
+struct AppendTapeCells<List, Letter, offset, level> {
+    using Tape = tl::AppendList<tur::TapeCell<offset + level, Letter>, List>;
+};
+
+template <class List, class T, std::size_t offset, std::size_t... levels>
+auto append_tape_cells(std::integer_sequence<std::size_t, levels...>)
+  -> AppendTapeCells<List, T, offset, levels...>::Tape;
+
+template <std::size_t width>
+using BaseTape = tl::List<tur::TapeCell<0, START>, tur::TapeCell<width, LET1>, tur::TapeCell<width + 1, END>>;
+
+// Constructs the tape to run rule110 simulations on.
+// The contents are as follows:
+// START, LET0, LET0, ..., LET0, LET1, END
+// START and END are not included into width
+template <std::size_t width>
+auto make_tape() -> decltype(append_tape_cells<BaseTape<width>, LET0, 1>(std::make_index_sequence<width - 1>()));
+
 int main()
 {
-    using TapeList = tl::List<tur::TapeCell<0, START>,
-                              tur::TapeCell<1, LET0>,
-                              tur::TapeCell<2, LET0>,
-                              tur::TapeCell<3, LET0>,
-                              tur::TapeCell<4, LET0>,
-                              tur::TapeCell<5, LET0>,
-                              tur::TapeCell<6, LET0>,
-                              tur::TapeCell<7, LET0>,
-                              tur::TapeCell<8, LET0>,
-                              tur::TapeCell<9, LET0>,
-                              tur::TapeCell<10, LET1>,
-                              tur::TapeCell<11, END>>;
+    constexpr std::size_t WIDTH = 10;
+    constexpr std::size_t ITERATIONS = 10;
 
-    rule110<TapeList>(std::make_index_sequence<10>{});
+    using TapeList = decltype(make_tape<WIDTH>());
+    run_rule110<TapeList>(std::make_index_sequence<ITERATIONS>{});
 
     return 0;
 }
